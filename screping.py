@@ -30,10 +30,9 @@ print "***************************************WELCOME TO EXERCISE***************
 ExerciseUrl = coursesUrl + '/' + str(show_select_course) +'/exercises'
 ExerciseUrlCall  = saralRequest(ExerciseUrl)
 
-
+childExercise = []
 slug = []
 def displayExercise():
-    childExercise = []
     Ex_index = 0
     while Ex_index < len(ExerciseUrlCall['data']):
         Exercise_index = ExerciseUrlCall['data'][Ex_index]
@@ -45,7 +44,7 @@ def displayExercise():
         slug.append( Exercise_slug)
         Ex_index = Ex_index + 1
     return slug    
-childExercise =displayExercise()
+displayExercise()
 
 selectExercise =  int(input("choose your exercise no. :- "))
 show_select_exercise = slug[selectExercise]
@@ -61,15 +60,47 @@ def displayChildExercise():
         child_name = child_index['name']
         childSlug = child_index['slug']
         child_slug.append(childSlug)
-        print i, child_name       
+        print i+1, child_name       
         i = i +1
     return  child_slug  
-child_slug = displayChildExercise() 
+child_slug =displayChildExercise() 
 
 select_question = int(input("select one question and click on url :- "))
 show_select_question =  child_slug[select_question]
 print (show_select_question)
-childSlugUrl = coursesUrl + '/' + str(show_select_course) + '/exercise/getBySlug?slug=' +show_select_question 
-childSlugUrlCall = saralRequest(childSlugUrl)
-store_content = childSlugUrlCall['content']
-print (store_content)
+
+def display():
+    childSlugUrl = coursesUrl + '/' + str(show_select_course) + '/exercise/getBySlug?slug=' +show_select_question 
+    childSlugUrlCall = saralRequest(childSlugUrl)
+    store_content = childSlugUrlCall['content']
+    print (store_content)
+display()
+
+def contentNext():    
+    user_input = int(input("enter your num question"))
+    slug_list = child_slug[user_input+-1] 
+    url =  coursesUrl + '/' + str(show_select_course) + '/exercise/getBySlug?slug=' + slug_list
+    urlCall = saralRequest(url)
+    nextContent = urlCall['content']
+    print (nextContent)
+   
+
+def contentPrevious():
+    userInput = int(input("enter your num question"))
+    slugList = child_slug[userInput+-1] 
+    url1 =  coursesUrl + '/' + str(show_select_course) + '/exercise/getBySlug?slug=' + slugList
+    urlCall = saralRequest(url1)
+    previousContent = urlCall['content']
+    print (previousContent)
+   
+
+while True:
+    choose= raw_input("Enter 'n' to go to next exercise or 'p' to go to previous exercise or to exit enter e key :- ")
+    if choose == 'n':
+        contentNext() 
+    elif choose == 'p':
+        contentPrevious() 
+    elif choose == 'e':
+        print("\n\n---------------------You choose exit from current COURSE.------------------------------------\n\n")
+        break    
+ 
