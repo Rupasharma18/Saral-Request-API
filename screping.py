@@ -1,7 +1,7 @@
 import requests
 import json
 import pprint
-
+# this is saral website url
 saralUrl = "http://saral.navgurukul.org/api"
 def saralRequest(url):
     respons = requests.get(url)
